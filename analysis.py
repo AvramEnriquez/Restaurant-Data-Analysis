@@ -10,7 +10,6 @@ df = pd.read_csv('/Users/avramenriquez/Documents/GitHub/Restaurant-Data-Analysis
 df['Gender'] = ''
 # Create a new instance of the gender detector
 d = Detector()
-
 for index, row in df.iterrows():
     # Extract the author's first name
     first_name = row['Author'].split()[0]
@@ -24,15 +23,14 @@ for index, row in df.iterrows():
     else:
         df.at[index, 'Gender'] = 'unknown'
 
+# Change Date column to datetime format
 df["Date"] = pd.to_datetime(df["Date"])
-
 # Create a new column with the season
 df["Season"] = np.where(df["Date"].dt.month.isin([12, 1, 2]), "Winter",
                 np.where(df["Date"].dt.month.isin([3, 4, 5]), "Spring",
                 np.where(df["Date"].dt.month.isin([6, 7, 8]), "Summer",
                 np.where(df["Date"].dt.month.isin([9, 10, 11]), "Fall", ""))))
-
-# Remove rows with 'Owner Response' value in the 'Review' column
+# Remove rows with 'Owner Response' value in the 'Author' column
 df = df[df['Author'] != 'Owner Response']
 
 # Save the new DataFrame to a new CSV file
