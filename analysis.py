@@ -8,7 +8,6 @@ df = pd.read_csv('/Users/avramenriquez/Documents/GitHub/Restaurant-Data-Analysis
 
 # Add a new column to the DataFrame to store the guessed gender
 df['Gender'] = ''
-
 # Create a new instance of the gender detector
 d = Detector()
 
@@ -33,8 +32,11 @@ df["Season"] = np.where(df["Date"].dt.month.isin([12, 1, 2]), "Winter",
                 np.where(df["Date"].dt.month.isin([6, 7, 8]), "Summer",
                 np.where(df["Date"].dt.month.isin([9, 10, 11]), "Fall", ""))))
 
-print(df)
-df.to_csv('reviews_with_gender_season.csv', index=False)
+# Remove rows with 'Owner Response' value in the 'Review' column
+df = df[df['Author'] != 'Owner Response']
+
+# Save the new DataFrame to a new CSV file
+df.to_csv('/Users/avramenriquez/Documents/GitHub/Restaurant-Data-Analysis/reviews_with_gender_season_no_owner_response.csv', index=False)
 
 import matplotlib.pyplot as plt
 
